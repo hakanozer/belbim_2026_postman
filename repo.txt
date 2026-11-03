@@ -1,1 +1,9 @@
-sample.txt
+https://github.com/hakanozer/havelsan_2026_security
+
+https://github.com/hakanozer/tofas_2026_ileri_dotnet
+
+https://github.com/hakanozer/isbank_2026_llm_rag_ai_agent
+
+https://github.com/hakanozer/ahl_2026_security_1
+
+https://github.com/hakanozer/bilgeadam_2026_ileri_java
