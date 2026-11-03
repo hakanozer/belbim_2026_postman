@@ -1,0 +1,44 @@
+
+name: Belbim API Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Projeyi indir
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Postman CLI kur
+        run: npm install -g postman-cli
+
+      - name: API testlerini çalıştır
+        run: |
+          TIMESTAMP=$(date +"%-d_%-m_%Y_%H_%M")
+          echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
+          mkdir -p reports
+
+          postman collection run "Belbim.postman_collection.json" \
+            --environment "Environment-Test.postman_environment.json" \
+            --iteration-data "postman_login_users.json" \
+            --iteration-count 10 \
+            --reporters cli,html \
+            --reporter-html-export "./reports/${TIMESTAMP}.html"
+
+      - name: Test raporunu sakla
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: belbim-api-report
+          path: reports/${{ env.TIMESTAMP }}.html
